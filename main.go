@@ -1,9 +1,10 @@
 package main
 
 import (
+	"log"
+
 	"github.com/javiermartins/react-twitter/bd"
 	"github.com/javiermartins/react-twitter/handlers"
-	"log"
 )
 
 func main() {

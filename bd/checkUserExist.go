@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/javiermartins/react-twitter/bd/constants"
 	"github.com/javiermartins/react-twitter/models"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -12,8 +13,8 @@ func CheckUserExist(email string) (models.User, bool, string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
-	db := MongoCN.Database("") //Insert database
-	collection := db.Collection("users")
+	db := MongoCN.Database(constants.DATABASENAME)
+	collection := db.Collection(constants.USERCOLLECTION)
 
 	condition := bson.M{"email": email}
 

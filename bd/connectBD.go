@@ -4,12 +4,13 @@ import (
 	"context"
 	"log"
 
+	"github.com/javiermartins/react-twitter/bd/constants"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var MongoCN = ConnectBD()
-var clientOptions = options.Client().ApplyURI("") //Add URI
+var clientOptions = options.Client().ApplyURI(constants.DBCONNECTION)
 
 /* Función que conecta con la BD */
 func ConnectBD() *mongo.Client {

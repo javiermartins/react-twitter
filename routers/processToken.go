@@ -29,10 +29,10 @@ func ProcessToken(token string) (*models.Claim, bool, string, error) {
 		return key, nil
 	})
 	if err == nil {
-		_, found, _ := bd.CheckUserExist(claims.Email)
+		_, found, ID := bd.CheckUserExist(claims.Email)
 		if found == true {
 			Email = claims.Email
-			IdUser = claims.ID.Hex()
+			IdUser = ID
 		}
 		return claims, found, IdUser, nil
 	}

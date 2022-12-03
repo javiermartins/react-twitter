@@ -1,13 +1,14 @@
 package handlers
 
 import (
+	"log"
+	"net/http"
+	"os"
+
 	"github.com/gorilla/mux"
 	"github.com/javiermartins/react-twitter/middlew"
 	"github.com/javiermartins/react-twitter/routers"
 	"github.com/rs/cors"
-	"log"
-	"net/http"
-	"os"
 )
 
 func Handlers() {
@@ -16,6 +17,8 @@ func Handlers() {
 	router.HandleFunc("/signup", middlew.CheckBD(routers.Signup)).Methods(("POST"))
 	router.HandleFunc("/login", middlew.CheckBD(routers.Login)).Methods(("POST"))
 	router.HandleFunc("/viewProfile", middlew.CheckBD(middlew.ValidateJWT(routers.ViewProfile))).Methods(("GET"))
+	router.HandleFunc("/modifyProfile", middlew.CheckBD(middlew.ValidateJWT(routers.ModifyProfile))).Methods(("PUT"))
+	router.HandleFunc("/insertTweet", middlew.CheckBD(middlew.ValidateJWT(routers.InsertTweet))).Methods(("POST"))
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {

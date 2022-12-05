@@ -8,7 +8,7 @@ import (
 )
 
 func ViewProfile(w http.ResponseWriter, r *http.Request) {
-	ID := r.URL.Query().Get("id")
+	ID := r.URL.Query().Get("idUser")
 	if len(ID) < 1 {
 		http.Error(w, "You must send the parameter id", http.StatusBadRequest)
 		return

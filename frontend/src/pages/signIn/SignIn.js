@@ -9,8 +9,10 @@ import { faComment } from "@fortawesome/free-regular-svg-icons";
 import Button from "react-bootstrap/Button";
 import BasicModal from "../../components/Modal/BasicModal/BasicModal";
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
+import SignInForm from "../../components/SignInForm/SignInForm";
 
-export default function SignIn() {
+export default function SignIn(props) {
+  const { setCheckRefresh } = props;
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setContentModal] = useState(null);
 
@@ -24,7 +26,11 @@ export default function SignIn() {
       <Container className="signin" fluid>
         <Row>
           <LeftComponent />
-          <RightComponent openModal={openModal} setShowModal={setShowModal} />
+          <RightComponent
+            openModal={openModal}
+            setShowModal={setShowModal}
+            setCheckRefresh={setCheckRefresh}
+          />
         </Row>
       </Container>
 
@@ -58,7 +64,7 @@ function LeftComponent() {
 }
 
 function RightComponent(props) {
-  const { openModal, setShowModal } = props;
+  const { openModal, setShowModal, setCheckRefresh } = props;
 
   return (
     <Col className="right-container" xs={6}>
@@ -74,7 +80,9 @@ function RightComponent(props) {
         </Button>
         <Button
           variant="outline-primary"
-          onClick={() => openModal(<h2>Formulario de login</h2>)}
+          onClick={() =>
+            openModal(<SignInForm setCheckRefresh={setCheckRefresh} />)
+          }
         >
           Iniciar sesión
         </Button>

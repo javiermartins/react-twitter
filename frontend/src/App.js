@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { isUserLogedApi } from "./api/auth";
 import SignIn from "./pages/signIn";
+import Routing from "./routes/Routing";
 import { AuthContext } from "./utils/context";
 
 export default function App() {
@@ -21,7 +22,7 @@ export default function App() {
     <AuthContext.Provider value={user}>
       {user ? (
         <div>
-          <h1>Estas logueado</h1>
+          <Routing setCheckRefresh={setCheckRefresh} />
         </div>
       ) : (
         <SignIn setCheckRefresh={setCheckRefresh} />

@@ -10,10 +10,12 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { logoutApi } from "../../api/auth";
 import logoWhite from "../../assets/img/logo-white.png";
+import getUser from "../../hooks/getUser";
 import "./Menu.scss";
 
 export default function Menu(props) {
   const { setCheckRefresh } = props;
+  const user = getUser();
 
   const logout = () => {
     logoutApi();
@@ -29,7 +31,7 @@ export default function Menu(props) {
       <Link to="/users">
         <FontAwesomeIcon icon={faUsers} /> Usuarios
       </Link>
-      <Link to="/profile">
+      <Link to={`/${user?.id}`}>
         <FontAwesomeIcon icon={faUser} /> Perfil
       </Link>
       <Link to="" onClick={logout}>

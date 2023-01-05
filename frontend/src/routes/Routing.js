@@ -19,8 +19,7 @@ export default function Routing(props) {
           <Route
             key={index}
             path={route.path}
-            element={<route.page />}
-            setCheckRefresh={setCheckRefresh}
+            element={<route.page setCheckRefresh={setCheckRefresh}/>}
           />
         ))}
       </Routes>

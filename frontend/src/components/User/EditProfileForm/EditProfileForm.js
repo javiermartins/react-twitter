@@ -1,11 +1,17 @@
 import React, { useCallback, useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
 import "./EditProfileForm.scss";
 import DatePicker from "react-datepicker";
 import es from "date-fns/locale/es";
 import { useDropzone } from "react-dropzone";
 import { API_HOST, GETAVATAR, GETBANNER } from "../../../utils/constants";
 import { Camera } from "../../../utils/Icons";
+import {
+  modifyProfileApi,
+  uploadAvatarApi,
+  uploadBannerApi,
+} from "../../../api/user";
+import { toast } from "react-toastify";
 
 export default function EditProfileForm(props) {
   const { user, setShowModal } = props;
@@ -18,6 +24,7 @@ export default function EditProfileForm(props) {
     user?.banner ? API_HOST + GETAVATAR + "?idUser=" + user.id : null
   );
   const [avatarFile, setAvatarFile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const onDropBanner = useCallback((acceptedFile) => {
     const file = acceptedFile[0];
@@ -51,8 +58,31 @@ export default function EditProfileForm(props) {
     onDrop: onDropAvatar,
   });
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
+    if (bannerFile) {
+      await uploadBannerApi(bannerFile).catch((e) => {
+        toast.error("Error al subir el banner");
+      });
+    }
+    if (avatarFile) {
+      await uploadAvatarApi(avatarFile).catch((e) => {
+        toast.error("Error al subir el avatar");
+      });
+    }
+
+    await modifyProfileApi(formData)
+      .then(() => {
+        setShowModal(false);
+      })
+      .catch(() => {
+        toast.error("Error al actualizar los datos");
+      });
+
+    setLoading(false);
+    window.location.reload();
   };
 
   const changeForm = (e) => {
@@ -67,7 +97,9 @@ export default function EditProfileForm(props) {
         {...getRootBannerProps()}
       >
         <input {...getInputBannerProps()} />
-        <div className="camera-container"><Camera /></div>
+        <div className="camera-container">
+          <Camera />
+        </div>
       </div>
       <div
         className="avatar"
@@ -75,7 +107,9 @@ export default function EditProfileForm(props) {
         {...getRootAvatarProps()}
       >
         <input {...getInputAvatarProps()} />
-        <div className="camera-container"><Camera /></div>
+        <div className="camera-container">
+          <Camera />
+        </div>
       </div>
       <Form onSubmit={onSubmit}>
         <Form.Group>
@@ -130,7 +164,7 @@ export default function EditProfileForm(props) {
         </Form.Group>
 
         <Button className="btn-submit" variant="primary" type="submit">
-          Actualizar
+          {loading && <Spinner animation="border" size="sm" />} Actualizar
         </Button>
       </Form>
     </div>

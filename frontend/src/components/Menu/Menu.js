@@ -5,16 +5,18 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { logoutApi } from "../../api/auth";
 import logoWhite from "../../assets/img/logo-white.png";
 import getUser from "../../hooks/getUser";
+import TweetModal from "../Modal/TweetModal/TweetModal";
 import "./Menu.scss";
 
 export default function Menu(props) {
   const { setCheckRefresh } = props;
+  const [showModal, setShowModal] = useState(false);
   const user = getUser();
 
   const logout = () => {
@@ -38,7 +40,9 @@ export default function Menu(props) {
         <FontAwesomeIcon icon={faPowerOff} /> Cerrar sesión
       </Link>
 
-      <Button>Twittear</Button>
+      <Button onClick={() => setShowModal(true)}>Twittear</Button>
+
+      <TweetModal show={showModal} setShow={setShowModal}></TweetModal>
     </div>
   );
 }

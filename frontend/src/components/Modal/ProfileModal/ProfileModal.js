@@ -6,7 +6,7 @@ import { Modal } from "react-bootstrap";
 import "./ProfileModal.scss";
 
 export default function ProfileModal(props) {
-  const { show, setShow, title, children } = props;
+  const { show, setShow, children } = props;
 
   return (
     <Modal

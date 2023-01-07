@@ -8,10 +8,15 @@ import getUser from "../../hooks/getUser";
 import { toast } from "react-toastify";
 import BannerAvatar from "../../components/User/BannerAvatar/BannerAvatar";
 import InfoUser from "../../components/User/InfoUser/InfoUser";
+import { getTweetsApi } from "../../api/tweet";
+import ListTweets from "../../components/ListTweets/ListTweets";
 
 export default function User(props) {
   const { id } = useParams();
   const [user, setUser] = useState(null);
+  const [tweets, setTweets] = useState(null);
+  const [page, setPage] = useState(1);
+  const [loadingTweets, setLoadingTweets] = useState(false);
   const loggedUser = getUser();
 
   useEffect(() => {
@@ -27,6 +32,32 @@ export default function User(props) {
       });
   }, [useParams()]);
 
+  useEffect(() => {
+    getTweetsApi(id, 1)
+      .then((response) => {
+        setTweets(response);
+        console.log(response);
+      })
+      .catch(() => {
+        setTweets([]);
+      });
+  }, [useParams()]);
+
+  const moreTweets = () => {
+    var pageTemp = page + 1;
+    setLoadingTweets(true);
+
+    getTweetsApi(id, pageTemp).then((response) => {
+      if (!response) {
+        setLoadingTweets(0);
+      } else {
+        setTweets([...tweets, ...response]);
+        setPage(pageTemp);
+        setLoadingTweets(false);
+      }
+    });
+  };
+
   return (
     <BasicLayout className="user">
       <div className="user__title">
@@ -37,8 +68,26 @@ export default function User(props) {
       <div>
         <BannerAvatar user={user} loggedUser={loggedUser} />
       </div>
-      <div><InfoUser user={user} /></div>
-      <div className="user__tweets">Lista de tweets</div>
+      <div>
+        <InfoUser user={user} />
+      </div>
+      <div className="user__tweets">
+        <h3>Tweets</h3>
+        {tweets && <ListTweets tweets={tweets} />}
+        <Button onClick={moreTweets}>
+          {!loadingTweets ? (
+            loadingTweets !== 0 && "Obtener más tweets"
+          ) : (
+            <Spinner
+              as="span"
+              animation="grow"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+          )}
+        </Button>
+      </div>
     </BasicLayout>
   );
 }

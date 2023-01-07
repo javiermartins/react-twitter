@@ -10,5 +10,7 @@ export const MODIFYPROFILE = "modifyProfile";
 export const CHECKFOLLOW = "getRelation";
 export const FOLLOW = "insertRelation";
 export const UNFOLLOW = "deleteRelation";
+export const GETTWEETS = "readTweets";
+export const INSERTTWEET = "insertTweet";
 
 export const TOKEN = "token";

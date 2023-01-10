@@ -12,6 +12,7 @@ import { getTweetsApi } from "../../api/tweet";
 import ListTweets from "../../components/ListTweets/ListTweets";
 
 export default function User(props) {
+  const { setCheckRefresh } = props;
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [tweets, setTweets] = useState(null);
@@ -36,7 +37,6 @@ export default function User(props) {
     getTweetsApi(id, 1)
       .then((response) => {
         setTweets(response);
-        console.log(response);
       })
       .catch(() => {
         setTweets([]);
@@ -59,7 +59,7 @@ export default function User(props) {
   };
 
   return (
-    <BasicLayout className="user">
+    <BasicLayout className="user" setCheckRefresh={setCheckRefresh}>
       <div className="user__title">
         <h2>
           {user ? `${user.name} ${user.surnames}` : "Usuario no encontrado"}

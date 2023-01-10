@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import checkFollowApi, { followUserApi, unfollowUserApi } from "../../../api/follow";
+import checkFollowApi, {
+  followUserApi,
+  unfollowUserApi,
+} from "../../../api/follow";
 import AvatarNoFound from "../../../assets/img/avatar-no-found.png";
 import { API_HOST, GETAVATAR, GETBANNER } from "../../../utils/constants";
 import ProfileModal from "../../Modal/ProfileModal/ProfileModal";
@@ -42,8 +45,8 @@ export default function BannerAvatar(props) {
   const onUnfollow = () => {
     unfollowUserApi(user?.id).then(() => {
       setReloadFollow(true);
-    })
-  } 
+    });
+  };
 
   return (
     <div
@@ -63,7 +66,9 @@ export default function BannerAvatar(props) {
           {user.id != loggedUser.id &&
             following !== null &&
             (following ? (
-              <Button className="unfollow" onClick={onUnfollow}><span>Siguiendo</span></Button>
+              <Button className="unfollow" onClick={onUnfollow}>
+                <span>Siguiendo</span>
+              </Button>
             ) : (
               <Button onClick={onFollow}>Seguir</Button>
             ))}

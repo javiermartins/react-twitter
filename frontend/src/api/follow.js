@@ -1,4 +1,4 @@
-import { API_HOST, CHECKFOLLOW, FOLLOW, UNFOLLOW } from "../utils/constants";
+import { API_HOST, CHECKFOLLOW, FOLLOW, GETUSERS, UNFOLLOW } from "../utils/constants";
 import { getTokenApi } from "./auth";
 
 export default function checkFollowApi(id) {
@@ -51,6 +51,28 @@ export function unfollowUserApi(id) {
 
   const params = {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer${getTokenApi()}`,
+    },
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
+export function getUsersApi(paramsUrl) {
+  const url = API_HOST + GETUSERS + "?" + paramsUrl;
+
+  const params = {
+    method: "GET",
     headers: {
       Authorization: `Bearer${getTokenApi()}`,
     },

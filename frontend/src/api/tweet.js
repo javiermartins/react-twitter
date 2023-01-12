@@ -1,4 +1,4 @@
-import { API_HOST, GETTWEETS, INSERTTWEET } from "../utils/constants";
+import { API_HOST, GETALLTWEETS, GETTWEETS, INSERTTWEET } from "../utils/constants";
 import { getTokenApi } from "./auth";
 
 export default function addTweetApi(message) {
@@ -30,6 +30,29 @@ export default function addTweetApi(message) {
 
 export function getTweetsApi(idUser, page) {
   const url = API_HOST + GETTWEETS + "?idUser=" + idUser + "&page=" + page;
+
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer${getTokenApi()}`,
+    },
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
+export function getTweetsFollowersApi(page = 1) {
+  const url = API_HOST + GETALLTWEETS + "?page=" + page;
 
   const params = {
     method: "GET",

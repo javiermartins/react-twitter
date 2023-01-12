@@ -13,5 +13,6 @@ export const UNFOLLOW = "deleteRelation";
 export const GETTWEETS = "readTweets";
 export const INSERTTWEET = "insertTweet";
 export const GETUSERS = "listUsers";
+export const GETALLTWEETS = "listTweets";
 
 export const TOKEN = "token";
